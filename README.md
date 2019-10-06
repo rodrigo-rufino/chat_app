@@ -1,2 +1,2 @@
 # chat_app
-Chat App with Node.js
+Chat App with Node.js and Websocket
