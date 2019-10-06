@@ -12,6 +12,7 @@ const $messages = document.querySelector('#messages');
 
 // Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML;
+const locationTemplate = document.querySelector('#location-template').innerHTML;
 
 
 socket.on('message', (message) => {
@@ -23,7 +24,10 @@ socket.on('message', (message) => {
 });
 
 socket.on('location', (location) => {
-  console.log(location);
+  const html = Mustache.render(locationTemplate, {
+    location
+  });
+  $messages.insertAdjacentHTML('beforeend', html);
 });
 
 $messageForm.addEventListener('submit', (e) => {
@@ -53,8 +57,7 @@ $sendLocationButton.addEventListener('click', () => {
   }
 
   navigator.geolocation.getCurrentPosition((position) => {
-    const geoMessage = `A user is sharing its location at 
-    https://google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
+    const geoMessage = `https://google.com/maps?q=${position.coords.latitude},${position.coords.longitude}`;
 
     socket.emit('sendLocation', geoMessage, () => {
       $sendLocationButton.removeAttribute('disabled');
