@@ -128,7 +128,7 @@ button:disabled {
 }
 
 .message__meta {
-    color: #777;
+    color: rgb(153, 153, 153);
     font-size: 14px;
 }
 
