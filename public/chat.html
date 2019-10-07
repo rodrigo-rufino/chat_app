@@ -34,7 +34,10 @@
 
 
   <script id="message-template" type="text/html">
-      <div class="message">
+      <div class="message" style="{{#me}}
+      background: #677396;
+      color: #ffffff;
+      {{/me}};">
         <p>
           <span class="message__name">{{username}}</span>
           <span class="message__meta">{{createdAt}}</span>
@@ -44,7 +47,7 @@
     </script>
 
   <script id="location-template" type="text/html">
-    <div class="message">
+    <div class="message" {{if (username === 'alca') color:}}>
       <p>
         <span class="message__name">{{username}}</span>
         <span class="message__meta">{{createdAt}}</span>

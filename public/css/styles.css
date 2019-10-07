@@ -115,7 +115,10 @@ button:disabled {
 /* Message Styles */
 
 .message {
-    margin-bottom: 16px;   
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 4px;
+    background-color:rgb(231, 231, 231);
 }
 
 .message__name {
