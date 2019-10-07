@@ -26,16 +26,17 @@ io.on('connection', (socket) => {
 
     socket.emit('message', generateMessage('Welcome!'));
     // send message to everyone in room
-    socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined the room.`));
+    socket.broadcast.to(room)
+      .emit('message', generateMessage(`${username} has joined the room.`));
   });
 
   socket.on('sendMessage', (message, callback) => {
     const filter = new Filter();
 
-    if (filter.isProfane(message)){
+    if (filter.isProfane(message)) {
       return callback('Profanity is not allowed!');
     }
-    
+
     io.to('chatroom').emit('message', generateMessage(message));
     callback();
   });
