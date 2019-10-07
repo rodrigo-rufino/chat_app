@@ -22,7 +22,8 @@ io.on('connection', (socket) => {
   console.log('New Websocket Connection');
 
   socket.on('join', (options, callback) => {
-    const {error, user } = addUser({ id: socket.id, ...options });
+    const newUser = { id: socket.id, ...options}
+    const {error, user } = addUser(newUser);
 
     if (error) {
       return callback(error);
@@ -34,8 +35,12 @@ io.on('connection', (socket) => {
     // send message to everyone in room
     socket.broadcast.to(user.room)
       .emit('message', generateMessage(`${user.username} has joined the room.`));
+    io.to(user.room).emit('roomData', {
+      room: user.room,
+      users: getUsersInRoom(user.room)
+    });
 
-      callback();
+    callback();
   });
 
   socket.on('sendMessage', (message, callback) => {
@@ -62,6 +67,11 @@ io.on('connection', (socket) => {
 
     if (user) {
       io.to(user.room).emit('message', generateMessage(`${user.username} has left`));
+      console.log(getUsersInRoom(user.room));
+      io.to(user.room).emit('roomData', {
+        room: user.room,
+        users: getUsersInRoom(user.room)
+      });
     }
   })
 });
