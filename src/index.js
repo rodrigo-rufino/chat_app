@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
     if (error) {
       return callback(error);
     }
-    
+
     socket.join(user.room);
 
     socket.emit('message', generateMessage('Welcome!'));
@@ -39,18 +39,21 @@ io.on('connection', (socket) => {
   });
 
   socket.on('sendMessage', (message, callback) => {
+    const user = getUser(socket.id);
     const filter = new Filter();
 
     if (filter.isProfane(message)) {
       return callback('Profanity is not allowed!');
     }
 
-    io.to('room').emit('message', generateMessage(message));
+    io.to(user.room).emit('message', generateMessage(user.username, message));
     callback();
   });
 
   socket.on('sendLocation', (location, callback) => {
-    io.emit('location', generateLocationMessage(location));
+    const user = getUser(socket.id);
+
+    io.to(user.room).emit('location', generateLocationMessage(user.username, location));
     callback();
   });
 

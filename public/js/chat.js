@@ -22,6 +22,7 @@ const dateFormat = 'h:mm:ss a';
 socket.on('message', (message) => {
   console.log(message);
   const html = Mustache.render(messageTemplate, {
+    username: message.username,
     message: message.text,
     createdAt: moment(message.createdAt).format(dateFormat)
   });
@@ -31,6 +32,7 @@ socket.on('message', (message) => {
 socket.on('location', (location) => {
   console.log(location);
   const html = Mustache.render(locationTemplate, {
+    username: location.username,
     location: location.text,
     createdAt: moment(location.createdAt).format(dateFormat)
   });
