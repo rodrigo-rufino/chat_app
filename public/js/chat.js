@@ -1,18 +1,21 @@
 const socket = io();
 
 // Elements
+const $messages = document.querySelector('#messages');
 const $messageForm = document.querySelector('#message-form');
 const $messageFormInput = $messageForm.querySelector('input');
 const $messageFormButton = $messageForm.querySelector('button');
 
 const $sendLocationButton = document.querySelector('#send-location');
 
-const $messages = document.querySelector('#messages');
-
 
 // Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML;
 const locationTemplate = document.querySelector('#location-template').innerHTML;
+
+// Options
+const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
+
 
 const dateFormat = 'h:mm:ss a';
 
@@ -68,5 +71,6 @@ $sendLocationButton.addEventListener('click', () => {
       console.log('Location shared!');
     });
   });
-
 });
+
+socket.emit('join', { username, room });
